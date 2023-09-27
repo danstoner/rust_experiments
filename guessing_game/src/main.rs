@@ -2,12 +2,12 @@ use std::{io, cmp::Ordering};
 use rand::Rng;
 
 fn main() {
-    let min = 1;
-    let max = 10;
+    const MIN: u32 = 1;
+    const MAX: u32 = 10;
     let mut guesses: u32 = 0;
-    println!("Guess a number between {min} and {max}!");
+    println!("Guess a number between {MIN} and {MAX}!");
 
-    let secret_number: u32 = rand::thread_rng().gen_range(min..=max);
+    let secret_number: u32 = rand::thread_rng().gen_range(MIN..=MAX);
 
     loop {
 
@@ -26,9 +26,9 @@ fn main() {
                 continue;
             }
         };
-        if guess > max {
+        if guess > MAX {
             println!("You guessed: {guess}");
-            println!("Guess should be between {min} and {max}");
+            println!("Guess should be between {MIN} and {MAX}");
             continue;
         };
 
