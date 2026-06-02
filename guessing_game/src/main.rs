@@ -22,7 +22,11 @@ fn main() {
             Ok(num) => num,
             Err(_) => {
                 println!("You guessed: {guess}");
-                println!("Please type a number!");
+                if guess.starts_with("-") {
+                    println!("Negative numbers are not supported.")
+                } else {
+                    println!("Non-numbers are not supported!");
+                }
                 continue;
             }
         };
