@@ -22,16 +22,13 @@ async fn main() {
             id: ship,
             speed: fastrand::f32() * (FLYER_MAX_SPEED - FLYER_MIN_SPEED) + FLYER_MIN_SPEED,
             size: fastrand::u8(FLYER_MIN_SIZE..=FLYER_MAX_SIZE),
-            direction: 0,
+            direction_radians: (fastrand::f32() * 180.0_f32).to_radians(),
             location_x: fastrand::f32() * screen_width(),
             location_y: screen_height(),
             destroyed: false,
         });
     }
 
-
-    
-    let mut sleeper: u32 = 0;
 
     loop {
         clear_background(BLUE);
@@ -58,42 +55,28 @@ async fn main() {
         }
         // draw_poly(circle_pos_x, circle_pos_y, 255, circle_size, 0.0, YELLOW);
 
-        // sleep for a certain number of ticks before updating the next position and size of the circle
 
-        if sleeper < SLEEP_TIME {
-            sleeper += 1;
-        } else {
-            // if fastrand::bool() {
-            //     circle_pos_x = circle_pos_x + 2.0;
-            // } else {
-            //     circle_pos_x = circle_pos_x - 2.0
-            // };
+        // let sleeper_text_template = String::from("Sleeper counter: {counter}");
 
-            // if fastrand::bool() {
-            //     circle_pos_y = circle_pos_y + 2.0;
-            // } else {
-            //     circle_pos_y = circle_pos_y - 2.0
-            // };
-            // circle_size = circle_size + 1.0;
-
-            sleeper = 0;
-        }
-
-        let sleeper_text_template = String::from("Sleeper counter: {counter}");
-
-        let sleeper_text = sleeper_text_template.replace("{counter}", &sleeper.to_string());
-        draw_text(&sleeper_text, 20.0, 20.0, 30.0, RED);
+        // let sleeper_text = sleeper_text_template.replace("{counter}", &sleeper.to_string());
+        // draw_text(&sleeper_text, 20.0, 20.0, 30.0, RED);
 
 
 
 
         // Update ship locations
         for ship in &mut ships {
+
+            let direction_change = (fastrand::f32() - 0.5) * 0.1; // Random small change in direction
+            ship.direction_radians += direction_change;
             ship.location_y -= ship.speed;
             if ship.location_y < 0.0 {
                 ship.destroyed = true;
             } else {
-                ship.location_y = ship.location_y - ship.speed;
+                ship.location_x += ship.speed * ship.direction_radians.cos();
+                ship.location_y -= ship.speed * ship.direction_radians.sin();
+                // ship.location_y = ship.location_y - ship.speed;
+                //
                 // ship.location_x = fastrand::f32() * screen_width();
                 // ship.speed = fastrand::u8(FLYER_MIN_SPEED..=FLYER_MAX_SPEED);
                 // ship.size = fastrand::u8(FLYER_MIN_SIZE..=FLYER_MAX_SIZE);
@@ -105,6 +88,7 @@ async fn main() {
         ships.retain(|ship| !ship.destroyed);
 
 
+        draw_fps();
         next_frame().await;
     }
 
