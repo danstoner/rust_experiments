@@ -19,4 +19,5 @@ pub const FLYER_MAX_SPEED: f32 = 1.2;
 pub const FLYER_MIN_SIZE: u8 = 5;
 pub const FLYER_MAX_SIZE: u8 = 20;
 
-
+pub const DARKDARKGRAY: Color = Color::from_rgba(72, 72, 72, 255);
+pub const DARKDARKDARKGRAY: Color = Color::from_rgba(44,44,44,255);
