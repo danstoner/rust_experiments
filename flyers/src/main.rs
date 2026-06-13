@@ -1,5 +1,3 @@
-use std::char::MAX;
-
 #[allow(unused_variables,dead_code)]
 
 use macroquad::prelude::*;
@@ -16,10 +14,11 @@ async fn main() {
     let center_y: f32 = screen_height() / 2.0;
 
 
-
     let mut ships: Vec<Flyer> = Vec::new();
     let mut remaining: u16;
 
+    // depends on having three colors
+    let bucket_size = FLYER_MAX_SIZE as f32 / 3.0;
 
     loop {
         clear_background(BLUE);
@@ -46,14 +45,28 @@ async fn main() {
         draw_text(&format!("Remaining: {}", remaining), 0.0, 35.0, 30.0, RED);
 
         if remaining < MAX_FLYERS {
+
+            let flyer_size: u8 = fastrand::u8(FLYER_MIN_SIZE..=FLYER_MAX_SIZE);
+            let bucket_size = FLYER_MAX_SIZE / 3;
+
+            let mut flyer_color = BLACK;
+            if flyer_size < bucket_size {
+                flyer_color = GRAY;
+            } else if flyer_size < bucket_size * 2 {
+                flyer_color = DARKGRAY;
+            }
+   
+            
             ships.push(Flyer {
                 speed: fastrand::f32() * (FLYER_MAX_SPEED - FLYER_MIN_SPEED) + FLYER_MIN_SPEED,
-                size: fastrand::u8(FLYER_MIN_SIZE..=FLYER_MAX_SIZE),
+                size: flyer_size,
                 direction_radians: (fastrand::f32() * 180.0_f32).to_radians(),
                 location_x: fastrand::f32() * screen_width(),
                 location_y: screen_height(),
                 destroyed: false,
+                color: flyer_color,
             });
+
         }
 
         // if is_mouse_button_pressed(MouseButton::Left) {
@@ -72,7 +85,8 @@ async fn main() {
                 255,
                 ship.size as f32,
                 0.0,
-                BLACK,
+                // Color::new(0.0, 0.0, 0.0, 100.0 / (100.0 - ship.size as f32)),
+                ship.color
             );
         }
         // draw_poly(circle_pos_x, circle_pos_y, 255, circle_size, 0.0, YELLOW);
