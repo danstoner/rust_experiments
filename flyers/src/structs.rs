@@ -2,7 +2,6 @@
 
 
 pub struct Flyer {
-    pub id: u16,
     pub speed: f32,
     pub size: u8,
     pub direction_radians: f32,

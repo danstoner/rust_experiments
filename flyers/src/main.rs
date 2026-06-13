@@ -1,9 +1,12 @@
+use std::char::MAX;
+
 #[allow(unused_variables,dead_code)]
 
 use macroquad::prelude::*;
 
 mod structs;
 use structs::*;
+
 
 #[macroquad::main("BasicShapes")]
 async fn main() {
@@ -15,7 +18,7 @@ async fn main() {
 
 
     let mut ships: Vec<Flyer> = Vec::new();
-    let mut remaining: u32;
+    let mut remaining: u16;
 
 
     loop {
@@ -26,22 +29,32 @@ async fn main() {
             ships.clear();
         }
 
-        if ships.is_empty() {
-            for ship in 1..=MAX_FLYERS {
-                ships.push(Flyer {
-                    id: ship,
-                    speed: fastrand::f32() * (FLYER_MAX_SPEED - FLYER_MIN_SPEED) + FLYER_MIN_SPEED,
-                    size: fastrand::u8(FLYER_MIN_SIZE..=FLYER_MAX_SIZE),
-                    direction_radians: (fastrand::f32() * 180.0_f32).to_radians(),
-                    location_x: fastrand::f32() * screen_width(),
-                    location_y: screen_height(),
-                    destroyed: false,
-                });
-            }
-        }
+        // if ships.is_empty() {
+        //     for ship in 1..=MAX_FLYERS {
+        //         ships.push(Flyer {
+        //             speed: fastrand::f32() * (FLYER_MAX_SPEED - FLYER_MIN_SPEED) + FLYER_MIN_SPEED,
+        //             size: fastrand::u8(FLYER_MIN_SIZE..=FLYER_MAX_SIZE),
+        //             direction_radians: (fastrand::f32() * 180.0_f32).to_radians(),
+        //             location_x: fastrand::f32() * screen_width(),
+        //             location_y: screen_height(),
+        //             destroyed: false,
+        //         });
+        //     }
+        // }
 
-        remaining = ships.len() as u32;
+        remaining = ships.len() as u16;
         draw_text(&format!("Remaining: {}", remaining), 0.0, 35.0, 30.0, RED);
+
+        if remaining < MAX_FLYERS {
+            ships.push(Flyer {
+                speed: fastrand::f32() * (FLYER_MAX_SPEED - FLYER_MIN_SPEED) + FLYER_MIN_SPEED,
+                size: fastrand::u8(FLYER_MIN_SIZE..=FLYER_MAX_SIZE),
+                direction_radians: (fastrand::f32() * 180.0_f32).to_radians(),
+                location_x: fastrand::f32() * screen_width(),
+                location_y: screen_height(),
+                destroyed: false,
+            });
+        }
 
         // if is_mouse_button_pressed(MouseButton::Left) {
         //     let (mouse_x, mouse_y) = mouse_position();
