@@ -24,7 +24,7 @@ async fn main() {
     let bucket_size = FLYER_MAX_SIZE as f32 / 3.0;
 
     loop {
-        clear_background(BLUE);
+        clear_background(BLACK);
 
         if is_mouse_button_pressed(MouseButton::Left) {
             // clear and start over
@@ -62,7 +62,7 @@ async fn main() {
                     location_x: fastrand::f32() * screen_width(),
                     location_y: screen_height(),
                     destroyed: false,
-                    color: DARKDARKGRAY,
+                    color: LIGHTLIGHTGRAY,
                 });
             } else if flyer_size <= bucket_size * 2 {
                  ships_med.push(Flyer {
@@ -72,7 +72,7 @@ async fn main() {
                     location_x: fastrand::f32() * screen_width(),
                     location_y: screen_height(),
                     destroyed: false,
-                    color: DARKDARKDARKGRAY,
+                    color: LIGHTLIGHTLIGHTGRAY,
                 });
             } else {
                 ships_near.push(Flyer {
@@ -82,7 +82,7 @@ async fn main() {
                     location_x: fastrand::f32() * screen_width(),
                     location_y: screen_height(),
                     destroyed: false,
-                    color: BLACK,
+                    color: NEARWHITE,
                 });
             }
    

@@ -21,3 +21,8 @@ pub const FLYER_MAX_SIZE: u8 = 20;
 
 pub const DARKDARKGRAY: Color = Color::from_rgba(72, 72, 72, 255);
 pub const DARKDARKDARKGRAY: Color = Color::from_rgba(44,44,44,255);
+
+
+pub const LIGHTLIGHTGRAY: Color = Color::from_rgba(190, 190, 190, 220);
+pub const LIGHTLIGHTLIGHTGRAY: Color = Color::from_rgba(221,221,221,200);
+pub const NEARWHITE: Color = Color::from_rgba(232, 232, 232, 180);
